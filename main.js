@@ -7,11 +7,12 @@ canvas.height = innerHeight;
 let mouse = {
     x: null,
     y: null,
-    radius: (canvas.width * canvas.height) * 0.0001757,
+    radius: (canvas.width * canvas.height) * (200/(1366 * 625)),
+
 }
 
 if(canvas.width < 811){
-    mouse.radius = 80;
+    mouse.radius = 100;
 }
 
 let perticles = [];
@@ -113,7 +114,9 @@ animate();
 // perticle creation
 function init(){
     perticles = [];
-    for (i = 0; i < (canvas.width * canvas.height) * 0.000586; i++) {
+    // for (i = 0; i < (canvas.width * canvas.height) * 0.000586; i++) {
+    for (i = 0; i < (canvas.width * canvas.height) * (600/(1366 * 625)); i++) {
+
         let pericleX = Math.random() * canvas.width;
         let pericleY = Math.random() * canvas.height;
         perticles.push(new Pericle(pericleX, pericleY));
@@ -159,9 +162,9 @@ window.addEventListener("resize", ()=>{
     canvas.width = innerWidth;
     canvas.height = innerHeight;
     if(canvas.width < 811){
-        mouse.radius = 80;
+        mouse.radius = 100;
     }else{
-        mouse.radius = (canvas.width * canvas.height) * 0.0001757;
+        mouse.radius = (canvas.width * canvas.height) * (200/(1366 * 625));
     }
     init();
 })

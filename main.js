@@ -70,12 +70,21 @@ function animate() {
 animate();
 
 
-// perticle creation 
-for (i = 0; i < 400; i++) {
-    let pericleX = Math.random() * canvas.width;
-    let pericleY = Math.random() * canvas.height;
-    perticles.push(new Pericle(pericleX, pericleY));
+// perticle creation \
+if(canvas.width < 500){
+    for (i = 0; i < 250; i++) {
+        let pericleX = Math.random() * canvas.width;
+        let pericleY = Math.random() * canvas.height;
+        perticles.push(new Pericle(pericleX, pericleY));
+    }
+}else{
+    for (i = 0; i < 500; i++) {
+        let pericleX = Math.random() * canvas.width;
+        let pericleY = Math.random() * canvas.height;
+        perticles.push(new Pericle(pericleX, pericleY));
+    }
 }
+
 
 // mouse movement
 window.addEventListener("mousemove", (e) => {

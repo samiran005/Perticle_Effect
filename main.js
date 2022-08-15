@@ -7,7 +7,11 @@ canvas.height = innerHeight;
 let mouse = {
     x: null,
     y: null,
-    radius: 150,
+    radius: (canvas.width * canvas.height) * 0.0001757,
+}
+
+if(canvas.width < 811){
+    mouse.radius = 80;
 }
 
 let perticles = [];
@@ -21,6 +25,8 @@ class Pericle {
         this.radius = 3;
         this.density = (Math.random() * 10) + 1;
         this.velosity = 3;
+        this.movementX = Math.random() * 10;
+        this.movementY = Math.random() * 10;
     }
     draw() {
         ctx.fillStyle = "white";
@@ -30,6 +36,15 @@ class Pericle {
         ctx.fill();
     }
     update(){
+        // movement to perticle 
+        if(this.x > canvas.width || this.x < 0){
+            this.movementX = -this.movementX;
+        }
+        if(this.y > canvas.height || this.y < 0){
+            this.movementY = -this.movementY;
+        }
+
+        // mouse collision
         let dx = this.x - mouse.x;
         let dy = this.y - mouse.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
@@ -45,16 +60,41 @@ class Pericle {
         if(distance < mouse.radius){
             this.x += positionX;
             this.y += positionY;
-        }else {
-            if(this.x != this.baseX){
-                let dx = this.x - this.baseX;
-                this.x -= dx / 10
-            }
-            if(this.y != this.baseY){
-                let dy = this.y - this.baseY;
-                this.y -= dy / 10
-            }
         }
+
+        //this is going to beingback the perticle to its original position
+
+        // else {
+        //     if(this.x != this.baseX){
+        //         let dx = this.x - this.baseX;
+        //         this.x -= dx / 10
+        //     }
+        //     if(this.y != this.baseY){
+        //         let dy = this.y - this.baseY;
+        //         this.y -= dy / 10
+        //     }
+        // }
+
+        // alternative mouse collision
+
+                // if(distance < mouse.radius){
+        //     if(mouse.x < this.x || this.x < 0){
+        //         this.x += 2;
+        //     }
+        //     if(mouse.x > this.x || this.x > canvas.width){
+        //         this.x -= 2
+        //     }
+        //     if(mouse.y < this.y || this.y < 0){
+        //         this.y += 2;
+        //     }
+        //     if(mouse.y > this.y || this.y > canvas.height){
+        //         this.y -= 2;
+        //     }
+        // }
+
+        //define the movement
+        this.x += this.movementX * 0.2;
+        this.y += this.movementY * 0.2;   
     }
 }
 
@@ -70,20 +110,17 @@ function animate() {
 animate();
 
 
-// perticle creation \
-if(canvas.width < 500){
-    for (i = 0; i < 250; i++) {
-        let pericleX = Math.random() * canvas.width;
-        let pericleY = Math.random() * canvas.height;
-        perticles.push(new Pericle(pericleX, pericleY));
-    }
-}else{
-    for (i = 0; i < 500; i++) {
+// perticle creation
+function init(){
+    perticles = [];
+    for (i = 0; i < (canvas.width * canvas.height) * 0.000586; i++) {
         let pericleX = Math.random() * canvas.width;
         let pericleY = Math.random() * canvas.height;
         perticles.push(new Pericle(pericleX, pericleY));
     }
 }
+init();
+
 
 
 // mouse movement
@@ -112,3 +149,19 @@ function joinLine() {
         }
     }
 }
+
+window.addEventListener("mouseout", ()=>{
+    mouse.x = undefined;
+    mouse.y = undefined;
+})
+
+window.addEventListener("resize", ()=>{
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+    if(canvas.width < 811){
+        mouse.radius = 80;
+    }else{
+        mouse.radius = (canvas.width * canvas.height) * 0.0001757;
+    }
+    init();
+})
